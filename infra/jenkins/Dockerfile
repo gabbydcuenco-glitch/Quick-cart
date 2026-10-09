@@ -12,5 +12,9 @@ RUN apt-get update && apt-get install -y ca-certificates curl gnupg \
  && rm -rf /var/lib/apt/lists/*
 USER jenkins
 
+# Pipeline plugins pinned to the versions verified on the local Jenkins.
+COPY plugins.txt /usr/share/jenkins/ref/plugins.txt
+RUN jenkins-plugin-cli --plugin-file /usr/share/jenkins/ref/plugins.txt
+
 # Local demo initialization, copied into persistent Jenkins home at startup.
 COPY init.groovy.d/ /usr/share/jenkins/ref/init.groovy.d/

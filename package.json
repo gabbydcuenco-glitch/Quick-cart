@@ -2,7 +2,7 @@
   "name": "quickcart",
   "private": true,
   "scripts": {
-    "dev": "node scripts/prepare-dev.cjs && npm --prefix frontend run dev",
+    "dev": "npm --prefix frontend run dev",
     "start": "docker compose up -d --build",
     "stop": "docker compose down",
     "logs": "docker compose logs -f",
@@ -15,8 +15,8 @@
     "backend": "docker compose -f docker-compose.yml -f docker-compose.host.yml up -d --build --wait --wait-timeout 240",
     "install:frontend": "npm --prefix frontend ci",
     "https:setup": "pwsh -NoProfile -ExecutionPolicy Bypass -File scripts/Setup-LocalHttps.ps1",
-    "setup:dev": "node scripts/prepare-dev.cjs",
-    "dev:https": "node scripts/prepare-dev.cjs && npm --prefix frontend run dev -- --mode https",
+    "setup:dev": "node scripts/prepare-dev.cjs --build",
+    "dev:https": "npm --prefix frontend run dev -- --mode https",
     "repair:env": "node scripts/init-env.cjs",
     "verify": "pwsh -NoProfile -File scripts/Verify-QuickCart.ps1"
   }

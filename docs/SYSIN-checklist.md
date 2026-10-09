@@ -3,7 +3,7 @@
 ## Implemented in source
 
 - React/Vite frontend and three Node.js/Express APIs with their own Dockerfiles.
-- PostgreSQL 16.6, six SQL tables, parameterized queries and checkout transactions.
+- PostgreSQL 16.6, seven SQL tables (including delivery_events), parameterized queries and checkout transactions.
 - Production gateway on 8080; private APIs/database; two networks; pg-data persistence.
 - Health checks, healthy dependencies, restart policies, .dockerignore and .env.example.
 - Separate Jenkins Docker Compose stack on 8081 with jenkins_home persistence.
@@ -15,7 +15,8 @@
 ## Runtime and submission evidence still required
 
 - [ ] Containers healthy and browser checkout writes to PostgreSQL.
-- [ ] Jenkins unlocked, plugins installed, SCM and quickcart-env configured.
+- [x] Local Jenkins plugins installed and quickcart-env credential configured.
+- [ ] GitHub SCM jobs configured after repository upload.
 - [ ] Push automatically starts a build without clicking Build Now.
 - [ ] Tests pass in Docker; a failing test prevents deployment.
 - [ ] Newly created order persists through redeployment/restart.
@@ -35,3 +36,6 @@ Follow docs/demo-runbook.md on the Docker host and record actual results.
 76 API tests passed (20 catalog, 39 orders, 17 payment), frontend lint and Vite
 build passed, and production/host/dev/Jenkins Compose configurations passed.
 The verification PowerShell script passed syntax parsing. Runtime checks remain pending.
+
+
+Current detailed evidence and limitations: see completion-status.md. Both Jenkinsfiles now validate in Jenkins; local tests total 92 plus the PostgreSQL integration suite. Live status-update fix awaits container rebuild.

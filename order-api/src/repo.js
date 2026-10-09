@@ -160,7 +160,7 @@ async function updateDelivery(orderNumber, action, expectedStatus) {
     if (!(action === 'receive' && row.status === 'Delivered')) {
       if (row.status !== expectedStatus) { const error = new Error('Order changed. Refresh before updating.'); error.status = 409; throw error; }
       const status = transition(row.status, action);
-      await conn.query("UPDATE orders SET status=$1, received_at=CASE WHEN $1='Delivered' THEN CURRENT_TIMESTAMP ELSE received_at END WHERE order_id=$2", [status, row.order_id]);
+      await conn.query("UPDATE orders SET status=$1::varchar, received_at=CASE WHEN $1::varchar='Delivered' THEN CURRENT_TIMESTAMP ELSE received_at END WHERE order_id=$2", [status, row.order_id]);
       const note = action === 'receive' ? 'Customer confirmed receipt.' : 'Demo delivery advanced to ' + status + '.';
       await conn.query('INSERT INTO delivery_events(order_id,status,note) VALUES($1,$2,$3)', [row.order_id,status,note]);
       await conn.query('INSERT INTO activity_logs(order_id,action_type,info) VALUES($1,$2,$3)', [row.order_id,'DELIVERY_UPDATED',note]);

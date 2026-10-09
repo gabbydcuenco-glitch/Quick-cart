@@ -139,3 +139,15 @@ requirements have not been changed.
 ## Delivery tracking update
 
 Added persistent estimated arrival windows, delivery timeline, illustrated sample route, demo status progression, and customer receipt confirmation. See docs/delivery-tracking.md. Orders API now has 55 passing tests, including 16 new tracking tests; frontend lint/build and Compose validation passed. Live Docker migration and end-to-end checks remain pending because this session cannot access the Docker named pipe. The sample route is simulated, not live GPS.
+
+
+## Current verification and Jenkins setup
+
+See docs/completion-status.md for the latest verified results and pending Docker/GitHub checks. Jenkins setup after repository upload is in docs/jenkins-next-steps.md. Run scripts/Finish-QuickCart-Local-Checks.ps1 from normal PowerShell to rebuild the delivery fix and verify restart persistence.
+
+
+## Daily development startup
+
+Run `npm.cmd run dev` to start Vite directly in the current terminal at http://localhost:8080. Keep that terminal open. This command does not rebuild Docker, download images, install dependencies, or reuse a different Vite process. Start only one Vite terminal; Ctrl+C stops it.
+
+Docker must already be running. First setup or after backend/Docker changes: run `npm.cmd run setup:dev`. To start existing stopped images without rebuilding, run `node scripts/prepare-dev.cjs`. Install frontend dependencies once with `npm.cmd run install:frontend`.
