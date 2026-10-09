@@ -1,0 +1,38 @@
+/* Base styles and the festive red-and-gold design tokens (plain CSS only) */
+:root {
+  --crimson: #800020;
+  --crimson-dark: #5c0017;
+  --gold: #d4af37;
+  --gold-dark: #b8921f;
+  --gold-soft: #f6e9b8;
+  --pine: #1f4d36;
+  --cream: #fbf7ef;
+  --paper: #ffffff;
+  --ink: #2b1b1b;
+  --muted: #6b5a5a;
+  --line: #e6d9bd;
+  --danger: #a4161a;
+  --ok: #1f6b3a;
+
+  --serif: Georgia, 'Times New Roman', serif;
+  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --script: 'Brush Script MT', 'Segoe Script', Georgia, cursive;
+  --radius: 10px;
+  --shadow: 0 2px 8px rgba(92, 0, 23, 0.12);
+
+  font: 16px/1.5 var(--sans);
+  color: var(--ink);
+  background: var(--cream);
+  -webkit-font-smoothing: antialiased;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; min-height: 100vh; }
+h1, h2, h3, h4 { font-family: var(--serif); color: var(--crimson); line-height: 1.2; margin: 0 0 0.5em; }
+p { margin: 0 0 0.75em; }
+a { color: var(--crimson); }
+img { max-width: 100%; }
+ul, ol { margin: 0; padding: 0; list-style: none; }
+button, input, select, textarea { font: inherit; }
+
+:focus-visible { outline: 3px solid var(--gold-dark); outline-offset: 2px; }

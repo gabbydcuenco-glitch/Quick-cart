@@ -1,0 +1,16 @@
+flowchart LR
+    A["git push<br/>to main"] --> B["Jenkins starts<br/>automatically<br/>(webhook / Poll SCM)"]
+    B --> C["Checkout"]
+    C --> D["Test<br/>docker build --target test<br/>Jest: 3 APIs · ESLint: frontend"]
+    D -- "Tests fail" --> X["Pipeline stops<br/>Previous version<br/>keeps running"]
+    D -- "Tests pass" --> E["Build Images<br/>tag = BUILD_NUMBER"]
+    E --> F["Deploy<br/>docker compose up -d<br/>--no-build"]
+    F --> G["Smoke Test<br/>health + catalog query<br/>through the proxy"]
+    G --> H["Live at localhost:8080<br/>Build # in footer"]
+
+    classDef box fill:#ffffff,stroke:#22223b,stroke-width:2px,color:#22223b
+    classDef bad fill:#fdecea,stroke:#b3261e,stroke-width:2px,color:#22223b
+    classDef good fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px,color:#22223b
+    class A,B,C,D,E,F,G box
+    class X bad
+    class H good

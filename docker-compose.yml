@@ -1,0 +1,101 @@
+# QuickCart application stack - start everything with: docker compose up -d --build
+# Images are tagged with ${TAG} (the Jenkins build number) so any version can be redeployed.
+name: quickcart
+
+services:
+  proxy:                                   # single public entry point
+    build: ./proxy
+    image: quickcart/proxy:${TAG:-latest}
+    ports:
+      - "8080:8080"                        # the ONLY published port
+    depends_on:
+      frontend:
+        condition: service_healthy
+      catalog-api:
+        condition: service_healthy
+      order-api:
+        condition: service_healthy
+      payment-api:
+        condition: service_healthy
+    restart: unless-stopped
+    networks: [frontend-net]
+
+  frontend:
+    build:
+      context: ./frontend
+      target: production
+      args:
+        BUILD_NUMBER: ${TAG:-dev}          # printed in the page footer
+    image: quickcart/frontend:${TAG:-latest}
+    restart: unless-stopped
+    networks: [frontend-net]
+
+  catalog-api:
+    build:
+      context: ./catalog-api
+      target: production
+    image: quickcart/catalog-api:${TAG:-latest}
+    environment:
+      DB_HOST: db
+      DB_NAME: quickcart
+      DB_USER: ${DB_USER:?DB_USER must be set in .env}
+      DB_PASSWORD: ${DB_PASSWORD:?DB_PASSWORD must be nonempty in .env}
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+    networks: [frontend-net, backend-net]
+
+  order-api:
+    build:
+      context: ./order-api
+      target: production
+    image: quickcart/order-api:${TAG:-latest}
+    environment:
+      DB_HOST: db
+      DB_NAME: quickcart
+      DB_USER: ${DB_USER:?DB_USER must be set in .env}
+      DB_PASSWORD: ${DB_PASSWORD:?DB_PASSWORD must be nonempty in .env}
+      PAYMENT_URL: http://payment-api:3003
+      DELIVERY_DEMO: "true"
+    depends_on:
+      db:
+        condition: service_healthy
+      payment-api:
+        condition: service_healthy
+    restart: unless-stopped
+    networks: [frontend-net, backend-net]
+
+  payment-api:
+    build:
+      context: ./payment-api
+      target: production
+    image: quickcart/payment-api:${TAG:-latest}
+    restart: unless-stopped
+    networks: [frontend-net]               # no database access needed
+
+  db:
+    build: ./db                            # PostgreSQL 16 + init.sql baked in
+    image: quickcart/db:${TAG:-latest}
+    environment:
+      POSTGRES_DB: quickcart
+      POSTGRES_USER: ${DB_USER:?DB_USER must be set in .env}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?DB_PASSWORD must be nonempty in .env}
+    volumes:
+      - pg-data:/var/lib/postgresql/data             # named volume: data survives redeploys
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+    networks: [backend-net]                # not reachable from proxy/frontend; port NOT published
+
+volumes:
+  pg-data:
+
+networks:
+  frontend-net:                            # proxy, frontend, and the APIs
+  backend-net:                             # APIs that use the database, and the database only
+
+

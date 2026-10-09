@@ -1,0 +1,30 @@
+flowchart TB
+    subgraph HOST["Host / Internet Network"]
+        USER["Shopper<br/>(Web Browser)"]
+    end
+
+    subgraph STACK["quickcart Docker stack — networks: frontend-net + backend-net"]
+        PROXY["proxy<br/>Nginx 1.27 (non-root)<br/>Port 8080<br/>[frontend-net]"]
+        WEB["frontend<br/>React (Vite, plain CSS) + Nginx<br/>Port 8080<br/>[frontend-net]"]
+        CATALOG["catalog-api<br/>Node.js 20 + Express<br/>Port 3001<br/>[frontend-net, backend-net]"]
+        ORDER["order-api<br/>Node.js 20 + Express<br/>Port 3002<br/>[frontend-net, backend-net]"]
+        PAY["payment-api<br/>Node.js 20 + Express<br/>Port 3003<br/>[frontend-net]"]
+        DB[("db<br/>PostgreSQL 16<br/>Port 5432 (not published)<br/>[backend-net only]")]
+    end
+
+    VOL[("pg-data<br/>Named Volume<br/>(Persistent Storage)")]
+
+    USER -- "HTTP Request / Port 8080<br/>(only published port)" --> PROXY
+    PROXY -- "/ route" --> WEB
+    PROXY -- "/api/catalog" --> CATALOG
+    PROXY -- "/api/orders, /api/support" --> ORDER
+    PROXY -. "/api/payment/health only" .-> PAY
+    ORDER -- "POST /charge" --> PAY
+    CATALOG -- "Reads" --> DB
+    ORDER -- "Reads / writes orders,<br/>customers, stock, logs" --> DB
+    DB --- VOL
+
+    classDef box fill:#ffffff,stroke:#22223b,stroke-width:2px,color:#22223b
+    class USER,PROXY,WEB,CATALOG,ORDER,PAY,DB,VOL box
+    style HOST fill:#fdf0ff,stroke:#d77fe8,stroke-width:2px
+    style STACK fill:#effcf8,stroke:#3fcfb4,stroke-width:2px

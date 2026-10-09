@@ -1,0 +1,6 @@
+# Keep Linux line endings so shell scripts and Dockerfiles also work inside containers / Jenkins
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.docx binary
+*.pdf binary

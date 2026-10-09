@@ -1,0 +1,6 @@
+# Local npm run dev owns 8080; the Docker gateway is reachable only on loopback.
+# Production/Jenkins continue using the base compose file with proxy on 8080.
+services:
+  proxy:
+    ports: !override
+      - "127.0.0.1:8082:8080"

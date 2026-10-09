@@ -1,0 +1,13 @@
+# Vite development mode; production and Jenkins continue using docker-compose.yml.
+services:
+  frontend:
+    build:
+      target: development
+    image: quickcart/frontend:vite-dev
+    volumes:
+      - ./frontend/src:/app/src:ro
+      - ./frontend/index.html:/app/index.html:ro
+    environment:
+      VITE_BUILD_NUMBER: dev
+      VITE_CONTAINER_DEV: '1'
+

@@ -1,0 +1,54 @@
+// QuickCart ROLLBACK job (parameterized): redeploys an earlier image tag without rebuilding
+pipeline {
+    agent any
+
+    parameters {
+        string(name: 'ROLLBACK_TAG', defaultValue: '', description: 'Build number to go back to (for example 12)')
+    }
+
+    environment {
+        COMPOSE_PROJECT_NAME = 'quickcart'
+        TAG = "${params.ROLLBACK_TAG}"
+    }
+
+    options { disableConcurrentBuilds() }
+
+    stages {
+        stage('Checkout') {
+            steps { checkout scm }
+        }
+        stage('Check Tag') {
+            steps {
+                sh '''
+                    case "$TAG" in
+                        ''|*[!0-9]*) echo "ROLLBACK_TAG must be a PostgreSQL Jenkins build number"; exit 1 ;;
+                    esac
+                    for service in proxy frontend catalog-api order-api payment-api db; do
+                        docker image inspect "quickcart/$service:$TAG" > /dev/null
+                    done
+                    echo "All six images for build $TAG found; confirm schema compatibility before rollback"
+                '''
+            }
+        }
+
+        stage('Redeploy') {
+            steps {
+                withCredentials([file(credentialsId: 'quickcart-env', variable: 'ENV_FILE')]) {
+                    sh '''
+                        cp "$ENV_FILE" .env
+                        sed -i 's/\\r$//' .env
+                        docker compose up -d --no-build --remove-orphans
+                    '''
+                }
+            }
+        }
+
+        stage('Smoke Test') {
+            steps { sh 'sh scripts/smoke-test.sh' }
+        }
+    }
+
+    post {
+        always { sh 'rm -f .env' }
+    }
+}
