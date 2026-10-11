@@ -14,6 +14,7 @@ pipeline {
     }
 
     options {
+        skipDefaultCheckout(true)
         disableConcurrentBuilds()            // one deployment at a time
         buildDiscarder(logRotator(numToKeepStr: '15'))
     }

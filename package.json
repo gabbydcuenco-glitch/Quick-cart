@@ -14,7 +14,7 @@
     "ps": "docker compose ps",
     "test": "docker build --target test ./catalog-api && docker build --target test ./order-api && docker build --target test ./payment-api && docker build --target test ./frontend",
     "db": "docker compose exec db sh -c 'psql -U \"$POSTGRES_USER\" -d \"$POSTGRES_DB\"'",
-    "jenkins": "docker compose -p quickcart-jenkins -f infra/jenkins/docker-compose.yml up -d --build",
+    "jenkins": "node scripts/start-jenkins.js && npm run dev -- -- --mode jenkins --clearScreen false",
     "dev:logs": "docker compose -f docker-compose.yml -f docker-compose.dev.yml logs -f frontend",
     "dev:containers": "node scripts/prepare-dev.js --dev",
     "backend": "node scripts/prepare-dev.js",

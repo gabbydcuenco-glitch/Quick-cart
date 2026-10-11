@@ -11,7 +11,7 @@ pipeline {
         TAG = "${params.ROLLBACK_TAG}"
     }
 
-    options { disableConcurrentBuilds() }
+    options { disableConcurrentBuilds(); skipDefaultCheckout(true) }
 
     stages {
         stage('Checkout') {

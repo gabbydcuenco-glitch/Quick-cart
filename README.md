@@ -95,3 +95,12 @@ separately. See docker-compose.yml for the exact wiring.
 | Frayre, Angeline B. | Database and Orchestration Lead |
 
 Declared roles are not a substitute for each member's actual commits and contribution evidence.
+
+## Jenkins and local development together
+
+`npm run dev` starts only QuickCart at the first free port from 8080.
+`npm run jenkins` starts Jenkins and QuickCart; QuickCart selects a free port
+from 8083 and prints both links. Jenkins images are reused after initial setup.
+Run `npm run jenkins -- --build` is not supported by the combined command;
+use `node scripts/start-jenkins.js --build` explicitly to rebuild Jenkins after plugin/Dockerfile changes.
+Stage View is bundled for inspecting Checkout, Test, Build Images, Deploy and Smoke Test.

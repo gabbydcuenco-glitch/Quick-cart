@@ -33,6 +33,16 @@ export function recordDevAddress(server, runtimeFile = new URL('../.quickcart-ru
         : `  ➜  Local:   ${local.href}`)
     }
   }
+  const printSystemUrl = server.printUrls
+  server.printUrls = () => {
+    printSystemUrl()
+    if (server.config.mode === 'jenkins') {
+      const color = !process.env.NO_COLOR && (process.stdout.isTTY || process.env.FORCE_COLOR)
+      server.config.logger.info(color
+        ? '  \u001b[32m➜\u001b[0m  \u001b[1mJenkins:\u001b[0m \u001b[36mhttp://localhost:8081/\u001b[0m'
+        : '  ➜  Jenkins: http://localhost:8081/')
+    }
+  }
   server.httpServer?.once('listening', () => {
     const port = server.httpServer.address().port
     const protocol = server.config.server.https ? 'https' : 'http'

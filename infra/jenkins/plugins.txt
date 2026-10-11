@@ -8,3 +8,4 @@ git:5.10.1
 github:1.47.0
 workflow-aggregator:608.v67378e9d3db_1
 ansicolor:542.v03d235fee02d
+pipeline-stage-view:2.41

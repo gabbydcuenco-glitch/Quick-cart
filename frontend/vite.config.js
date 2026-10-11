@@ -34,7 +34,7 @@ export default defineConfig(async ({ command, mode }) => {
     server: {
       // Each laptop runs its own local Vite server and Docker installation.
       host: containerDev ? '0.0.0.0' : '127.0.0.1',
-      port: command === 'serve' && !containerDev ? await availableDevPort() : 8080,
+      port: command === 'serve' && !containerDev ? await availableDevPort(mode === 'jenkins' ? 8083 : 8080) : 8080,
       strictPort: false,
       https: useHttps && !containerDev
         ? { cert: readFileSync(cert), key: readFileSync(key) }
