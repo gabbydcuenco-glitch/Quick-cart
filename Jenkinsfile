@@ -52,7 +52,7 @@ pipeline {
                     sh '''
                         cp "$ENV_FILE" .env
                         sed -i 's/\\r$//' .env
-                        docker compose up -d --no-build --remove-orphans
+                        sh scripts/deploy.sh
                     '''
                 }
             }
@@ -66,7 +66,7 @@ pipeline {
 
     post {
         success {
-            echo "QuickCart build ${TAG} is live at http://localhost:8080"
+            sh 'docker port quickcart-proxy-1 8080'
         }
         failure {
             echo "Build ${TAG} failed. Check the red stage. If it failed before Deploy, the previous version is still running."

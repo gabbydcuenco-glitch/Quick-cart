@@ -37,7 +37,7 @@ pipeline {
                     sh '''
                         cp "$ENV_FILE" .env
                         sed -i 's/\\r$//' .env
-                        docker compose up -d --no-build --remove-orphans
+                        sh scripts/deploy.sh
                     '''
                 }
             }
