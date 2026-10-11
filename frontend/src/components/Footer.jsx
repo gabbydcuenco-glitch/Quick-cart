@@ -1,3 +1,5 @@
+import { BUILD } from '../format'
+
 export default function Footer() {
   return (
     <footer className="site-footer">
@@ -30,7 +32,7 @@ export default function Footer() {
         </section>
       </div>
       <p className="footer-bottom">
-        © 2026 QuickCart. All rights reserved.
+        © 2026 QuickCart. All rights reserved. · Build {BUILD}
       </p>
     </footer>
   )
