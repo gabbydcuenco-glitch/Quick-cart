@@ -60,7 +60,7 @@ pipeline {
 
         stage('Smoke Test') {
             // Calls every health endpoint and one catalog query THROUGH the proxy
-            steps { sh 'sh scripts/smoke-test.sh' }
+            steps { sh 'sh scripts/smoke-test.sh --payment-routes' }
         }
     }
 

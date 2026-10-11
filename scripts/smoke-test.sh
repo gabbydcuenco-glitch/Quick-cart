@@ -23,6 +23,11 @@ for i in $(seq 1 24); do
       } catch { process.exit(1); }
     });
   '; then
+    # Older compatible rollback images may predate the public payment route.
+    # Current builds explicitly require it; the baseline smoke test still covers rollback.
+    if [ "${1:-}" = "--payment-routes" ]; then
+      docker compose exec -T catalog-api node < scripts/payment-smoke.js || exit 1
+    fi
     echo "Smoke test passed: frontend, proxy, all APIs and database query verified"
     exit 0
   fi

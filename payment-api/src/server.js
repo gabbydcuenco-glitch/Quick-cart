@@ -9,7 +9,8 @@ app.get(['/health', '/api/payment/health'], (req, res) => {
   res.json({ status: 'ok', service: 'payment-api' });
 });
 
-// Charge a payment. Only order-api calls this (the proxy does not expose it).
+// Simulate a payment. The gateway routes this endpoint; checkout uses order-api
+// to calculate the trusted total, request approval and save an order.
 app.post('/api/payment/charge', (req, res) => {
   const result = charge(req.body || {});
   const malformed = result.reason === 'Unknown payment method' || result.reason === 'Invalid amount';
