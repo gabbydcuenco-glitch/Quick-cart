@@ -66,7 +66,9 @@ pipeline {
 
     post {
         success {
-            sh 'docker port quickcart-proxy-1 8080'
+            ansiColor('xterm') {
+                sh(label: 'QuickCart is ready', script: 'set +x; sh scripts/deployment-banner.sh')
+            }
         }
         failure {
             echo "Build ${TAG} failed. Check the red stage. If it failed before Deploy, the previous version is still running."

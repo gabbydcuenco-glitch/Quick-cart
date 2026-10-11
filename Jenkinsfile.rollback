@@ -49,6 +49,11 @@ pipeline {
     }
 
     post {
+        success {
+            ansiColor('xterm') {
+                sh(label: 'QuickCart is ready', script: 'set +x; sh scripts/deployment-banner.sh')
+            }
+        }
         always { sh 'rm -f .env' }
     }
 }
