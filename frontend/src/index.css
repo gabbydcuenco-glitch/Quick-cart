@@ -1,24 +1,24 @@
-/* Base styles and the festive red-and-gold design tokens (plain CSS only) */
+/* Pastel gift-shop palette, inspired by the supplied pink/lavender reference. */
 :root {
-  --crimson: #800020;
-  --crimson-dark: #5c0017;
-  --gold: #d4af37;
-  --gold-dark: #b8921f;
-  --gold-soft: #f6e9b8;
-  --pine: #1f4d36;
-  --cream: #fbf7ef;
+  --crimson: #ad226c;
+  --crimson-dark: #82174f;
+  --gold: #ed78b7;
+  --gold-dark: #b42b79;
+  --gold-soft: #fce9f4;
+  --pine: #329575;
+  --cream: #fff8fc;
   --paper: #ffffff;
-  --ink: #2b1b1b;
-  --muted: #6b5a5a;
-  --line: #e6d9bd;
+  --ink: #4c3148;
+  --muted: #766574;
+  --line: #eed5e6;
   --danger: #a4161a;
   --ok: #1f6b3a;
 
-  --serif: Georgia, 'Times New Roman', serif;
+  --serif: var(--sans);
   --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
   --script: 'Brush Script MT', 'Segoe Script', Georgia, cursive;
-  --radius: 10px;
-  --shadow: 0 2px 8px rgba(92, 0, 23, 0.12);
+  --radius: 18px;
+  --shadow: 0 4px 16px rgba(128, 65, 109, 0.10);
 
   font: 16px/1.5 var(--sans);
   color: var(--ink);

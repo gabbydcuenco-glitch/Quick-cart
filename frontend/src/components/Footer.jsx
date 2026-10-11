@@ -1,5 +1,3 @@
-import { BUILD } from '../format'
-
 export default function Footer() {
   return (
     <footer className="site-footer">
@@ -19,12 +17,12 @@ export default function Footer() {
           <ul>
             <li>Free Standard Holiday Shipping</li>
             <li>30-Day Holiday Return Guarantee</li>
-            <li>$10 off orders of $100 or more</li>
+            <li>₱300 off orders of ₱3,000 or more</li>
           </ul>
         </section>
         <section>
           <h4>Trust Signals</h4>
-          <p className="trust-badge">🔒 Secure Checkout <small>256-bit SSL encryption</small></p>
+          <p className="trust-badge">🔒 Secure Checkout</p>
           <p className="trust-badge">📦 30-Day Returns <small>Guaranteed holiday returns</small></p>
           <p className="payment-icons" aria-label="Accepted payments">
             <span>VISA</span><span>MasterCard</span><span>PayPal</span><span>G Pay</span>
@@ -32,8 +30,7 @@ export default function Footer() {
         </section>
       </div>
       <p className="footer-bottom">
-        © 2026 QuickCart. All rights reserved. A SYSIN final project: demo store, no real payments.
-        <span className="build-label">Build #{BUILD}</span>
+        © 2026 QuickCart. All rights reserved.
       </p>
     </footer>
   )

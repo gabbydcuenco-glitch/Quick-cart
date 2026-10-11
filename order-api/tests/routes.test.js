@@ -15,9 +15,9 @@ const gateway = require('../src/gateway');
 const app = require('../src/server');
 
 const PRODUCTS = [
-  { id: 1, name: 'Matching Couple PJs', priceCents: 7800, stock: 40 },
-  { id: 2, name: 'Instant Film Camera Set', priceCents: 2900, stock: 60 },
-  { id: 3, name: 'Double Stainless Flask Set', priceCents: 1500, stock: 2 },
+  { id: 1, name: 'Matching Couple PJs', priceCents: 250000, currency: 'PHP', stock: 40 },
+  { id: 2, name: 'Instant Film Camera Set', priceCents: 100000, currency: 'PHP', stock: 60 },
+  { id: 3, name: 'Double Stainless Flask Set', priceCents: 50000, currency: 'PHP', stock: 2 },
 ];
 
 const order = {
@@ -51,16 +51,16 @@ describe('health', () => {
 });
 
 describe('POST /api/orders/quote', () => {
-  test('returns the totals: $122 subtotal, $10 discount, $112 total', async () => {
+  test('returns the totals: PHP 4000 subtotal, PHP 300 discount, PHP 3700 total', async () => {
     const res = await request(app).post('/api/orders/quote').send({ items: order.items, delivery: 'standard' });
     expect(res.status).toBe(200);
-    expect(res.body).toMatchObject({ subtotal: 122, discount: 10, shipping: 0, total: 112 });
+    expect(res.body).toMatchObject({ currency: 'PHP', subtotal: 4000, discount: 300, shipping: 0, total: 3700 });
     expect(res.body.lines).toHaveLength(3);
-    expect(res.body.rates).toEqual({ discountThreshold: 100, discountAmount: 10, expressShipping: 14.99 });
+    expect(res.body.rates).toEqual({ discountThreshold: 3000, discountAmount: 300, expressShipping: 149 });
   });
   test('adds express shipping', async () => {
     const res = await request(app).post('/api/orders/quote').send({ items: [{ productId: 2, quantity: 1 }], delivery: 'express' });
-    expect(res.body.total).toBe(43.99);
+    expect(res.body.total).toBe(1149);
   });
   test('400 for an empty cart', async () => {
     const res = await request(app).post('/api/orders/quote').send({ items: [], delivery: 'standard' });
@@ -76,8 +76,8 @@ describe('POST /api/orders (checkout)', () => {
     const res = await request(app).post('/api/orders').send(order);
 
     expect(res.status).toBe(201);
-    expect(res.body).toMatchObject({ orderNumber: 'QC-2026-10003', total: 112, paymentReference: 'PAY-ABCD1234' });
-    expect(gateway.charge).toHaveBeenCalledWith({ method: 'card', amountCents: 11200, card: order.payment.card });
+    expect(res.body).toMatchObject({ orderNumber: 'QC-2026-10003', currency: 'PHP', total: 3700, paymentReference: 'PAY-ABCD1234' });
+    expect(gateway.charge).toHaveBeenCalledWith({ method: 'card', amountCents: 370000, card: order.payment.card });
     expect(repo.createOrder).toHaveBeenCalledTimes(1);
   });
 

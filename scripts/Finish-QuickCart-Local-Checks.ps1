@@ -1,6 +1,6 @@
 param(
-  [string]$ProjectPath = 'C:\Users\Kenta\Downloads\QuickCart-PostgreSQL 1\quickcart',
-  [string]$OrderNumber = 'QC-2026-10004'
+  [string]$ProjectPath = (Split-Path -Parent $PSScriptRoot),
+  [Parameter(Mandatory=$true)][string]$OrderNumber
 )
 $ErrorActionPreference = 'Stop'
 Set-Location -LiteralPath $ProjectPath

@@ -111,7 +111,7 @@ export default function Checkout({ cart, onOrdered, showToast }) {
             </label>
             <label className="radio">
               <input type="radio" name="delivery" checked={delivery === 'express'} onChange={() => setDelivery('express')} />
-              Express Courier ({rates ? money(rates.expressShipping) : '$14.99'}, estimated next day)
+              Express Courier ({rates ? money(rates.expressShipping, summary.currency || 'USD') : 'calculating…'}, estimated next day)
             </label>
           </fieldset>
 
@@ -157,21 +157,21 @@ export default function Checkout({ cart, onOrdered, showToast }) {
           <h2>Order Summary &amp; Payment</h2>
           <ul className="summary-lines">
             {summary && summary.lines.map((l) => (
-              <li key={l.productId}><span>{l.name} <small>× {l.quantity}</small></span><span>{money(l.lineTotal)}</span></li>
+              <li key={l.productId}><span>{l.name} <small>× {l.quantity}</small></span><span>{money(l.lineTotal, summary.currency || 'USD')}</span></li>
             ))}
           </ul>
           {quoteError && <p className="notice notice-error">{quoteError} <a href="#/cart">Back to cart</a></p>}
           {summary && !quoteError && (
             <dl className="summary-rows">
-              <div><dt>Subtotal</dt><dd>{money(summary.subtotal)}</dd></div>
-              {summary.discount > 0 && <div className="summary-discount"><dt>Holiday offer</dt><dd>−{money(summary.discount)}</dd></div>}
-              <div><dt>Shipping</dt><dd>{summary.shipping === 0 ? 'FREE' : money(summary.shipping)}</dd></div>
-              <div className="summary-total"><dt>Total Amount</dt><dd>{money(summary.total)}</dd></div>
+              <div><dt>Subtotal</dt><dd>{money(summary.subtotal, summary.currency || 'USD')}</dd></div>
+              {summary.discount > 0 && <div className="summary-discount"><dt>Holiday offer</dt><dd>−{money(summary.discount, summary.currency || 'USD')}</dd></div>}
+              <div><dt>Shipping</dt><dd>{summary.shipping === 0 ? 'FREE' : money(summary.shipping, summary.currency || 'USD')}</dd></div>
+              <div className="summary-total"><dt>Total Amount</dt><dd>{money(summary.total, summary.currency || 'USD')}</dd></div>
             </dl>
           )}
           {formError && <p className="notice notice-error" role="alert">{formError}</p>}
           <button type="submit" className="btn btn-gold btn-block" disabled={placing || Boolean(quoteError) || !summary}>
-            🔒 {placing ? 'Placing order...' : `Place Order${summary ? ` (${money(summary.total)})` : ''}`}
+            🔒 {placing ? 'Placing order...' : `Place Order${summary ? ` (${money(summary.total, summary.currency || 'USD')})` : ''}`}
           </button>
           <p className="hint center">100% Secure Checkout · 30-Day Holiday Return Policy</p>
         </aside>

@@ -8,12 +8,13 @@ function discountPercent(price, listPrice) {
 
 // Search box + category chips + "Holiday Deals" filter
 function filterProducts(products, { q = '', category = '', deals = false } = {}) {
+  if (category === 'Couples & Unisex') category = 'Couples';
   const text = String(q).trim().toLowerCase();
   return products.filter((p) => {
     if (category && p.category !== category) return false;
     if (deals && p.discountPercent <= 0) return false;
     if (!text) return true;
-    return p.name.toLowerCase().includes(text) || p.category.toLowerCase().includes(text);
+    return p.name.toLowerCase().includes(text) || p.category.toLowerCase().includes(text) || (p.productType || '').toLowerCase().includes(text);
   });
 }
 
@@ -22,9 +23,9 @@ function suggest(products, query, limit = 5) {
   const text = String(query || '').trim().toLowerCase();
   if (text.length < 2) return [];
   return products
-    .filter((p) => p.name.toLowerCase().includes(text) || p.category.toLowerCase().includes(text))
+    .filter((p) => p.name.toLowerCase().includes(text) || p.category.toLowerCase().includes(text) || (p.productType || '').toLowerCase().includes(text))
     .slice(0, limit)
-    .map(({ id, slug, name, price, category }) => ({ id, slug, name, price, category }));
+    .map(({ id, slug, name, price, category, currency }) => ({ id, slug, name, price, category, currency }));
 }
 
 function listCategories(products) {

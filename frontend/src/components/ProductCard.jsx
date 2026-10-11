@@ -11,12 +11,14 @@ export default function ProductCard({ product, onAdd }) {
         <h3>{product.name}</h3>
       </a>
       <p className="product-category">{product.category}</p>
-      <p className="rating" aria-label={`Rated ${product.rating} out of 5`}>
-        <span className="stars">{stars(product.rating)}</span> ({product.reviews})
-      </p>
+      {product.reviews > 0 ? (
+        <p className="rating" aria-label={`Rated ${product.rating} out of 5`}>
+          <span className="stars">{stars(product.rating)}</span> ({product.reviews})
+        </p>
+      ) : <p className="rating">New arrival · No reviews yet</p>}
       <p className="price">
-        <strong>{money(product.price)}</strong>
-        {product.listPrice && product.listPrice > product.price && <s>{money(product.listPrice)}</s>}
+        <strong>{money(product.price, product.currency || 'USD')}</strong>
+        {product.listPrice && product.listPrice > product.price && <s>{money(product.listPrice, product.currency || 'USD')}</s>}
       </p>
       {!soldOut && product.stock <= 5 && <p className="low-stock">Only {product.stock} left</p>}
       <button type="button" className="btn btn-gold btn-block" disabled={soldOut} onClick={() => onAdd(product, 1)}>

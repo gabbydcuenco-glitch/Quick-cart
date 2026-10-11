@@ -1,33 +1,11 @@
-param([switch]$Production)
+param([switch]$Production, [switch]$Dev, [switch]$Jenkins)
 $ErrorActionPreference = 'Stop'
 Set-Location -LiteralPath $PSScriptRoot
-
-function Invoke-Docker {
-    param([string[]]$DockerArgs)
-    & docker @DockerArgs
-    if ($LASTEXITCODE -ne 0) { throw "Docker command failed with exit code $LASTEXITCODE" }
+if (-not (Get-Command node -ErrorAction SilentlyContinue)) { throw 'Install Node.js 22.12 or newer, then retry.' }
+if ($Jenkins) {
+    & docker compose -p quickcart-jenkins -f infra/jenkins/docker-compose.yml up -d --build
+    if ($LASTEXITCODE -ne 0) { throw 'Jenkins startup failed. Check Docker Desktop.' }
 }
-
-# Check the daemon before writing configuration or starting services.
-Invoke-Docker -DockerArgs @('info', '--format', '{{.ServerVersion}}')
-& node scripts/init-env.cjs
-if ($LASTEXITCODE -ne 0) { throw 'Environment setup failed' }
-
-Invoke-Docker -DockerArgs @('compose', '-p', 'quickcart-jenkins', '-f', 'infra/jenkins/docker-compose.yml', 'up', '-d', '--build')
-if ($Production) {
-    Invoke-Docker -DockerArgs @('compose', 'up', '-d', '--build', '--wait', '--wait-timeout', '240')
-}
-
-if ($Production) { Write-Host 'QuickCart: http://localhost:8080' } else { Write-Host 'QuickCart: http://localhost:8080' }
-Write-Host 'Jenkins:   http://localhost:8081'
-if (-not $Production) {
-    if (-not (Test-Path 'frontend/node_modules/.bin/vite.cmd')) {
-        & npm.cmd --prefix frontend ci
-        if ($LASTEXITCODE -ne 0) { throw 'Frontend dependency installation failed' }
-    }
-    & npm.cmd run dev
-    if ($LASTEXITCODE -ne 0) { throw 'Vite exited with an error' }
-}
-
-
+if ($Dev) { & npm.cmd run dev } else { & node scripts/prepare-dev.js }
+if ($LASTEXITCODE -ne 0) { throw 'QuickCart startup failed. See the message above.' }
 

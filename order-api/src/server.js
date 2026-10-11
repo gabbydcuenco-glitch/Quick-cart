@@ -25,6 +25,7 @@ async function buildLines(items) {
   return merged.map((item) => {
     const product = byId.get(item.productId);
     if (!product) throw httpError(400, `Product ${item.productId} was not found`);
+    if (product.currency && product.currency !== 'PHP') throw httpError(503, 'Peso catalog update is not ready. Please retry shortly.');
     if (item.quantity > product.stock) {
       throw httpError(409, product.stock === 0 ? `${product.name} is out of stock` : `Only ${product.stock} left of ${product.name}`);
     }
@@ -33,6 +34,7 @@ async function buildLines(items) {
 }
 
 const money = (totals) => ({
+  currency: 'PHP',
   subtotal: dollars(totals.subtotalCents),
   discount: dollars(totals.discountCents),
   shipping: dollars(totals.shippingCents),

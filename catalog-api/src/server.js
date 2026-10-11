@@ -54,7 +54,9 @@ app.use((err, req, res, next) => {
 
 const PORT = process.env.PORT || 3001;
 if (require.main === module) {
-  app.listen(PORT, () => console.log(`catalog-api running on port ${PORT}`));
+  require('./migrate')().then(() => {
+    app.listen(PORT, () => console.log(`catalog-api running on port ${PORT}`));
+  }).catch(error => { console.error('Catalog migration failed:', error.message); process.exit(1); });
 }
 
 module.exports = app;

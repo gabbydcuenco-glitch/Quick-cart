@@ -1,6 +1,13 @@
 // All calls to the backend go through the Nginx proxy (same origin), so no URLs or CORS to configure.
 async function request(url, options) {
-  const res = await fetch(url, options)
+  let res
+  try {
+    res = await fetch(url, { ...options, cache: 'no-store', signal: AbortSignal.timeout(10000) })
+    if (res.status >= 502) window.dispatchEvent(new Event('quickcart:unavailable'))
+  } catch (error) {
+    window.dispatchEvent(new Event('quickcart:unavailable'))
+    throw error
+  }
   const data = await res.json().catch(() => null)
   if (!res.ok) {
     const error = new Error((data && data.error) || 'Something went wrong. Please try again.')

@@ -7,7 +7,7 @@ services:
     build: ./proxy
     image: quickcart/proxy:${TAG:-latest}
     ports:
-      - "8080:8080"                        # the ONLY published port
+      - "127.0.0.1:${QUICKCART_PORT:-8082}:8080"                        # the ONLY published port
     depends_on:
       frontend:
         condition: service_healthy
@@ -38,8 +38,7 @@ services:
     environment:
       DB_HOST: db
       DB_NAME: quickcart
-      DB_USER: ${DB_USER:?DB_USER must be set in .env}
-      DB_PASSWORD: ${DB_PASSWORD:?DB_PASSWORD must be nonempty in .env}
+      DB_USER: ${DB_USER:-quickcart}
     depends_on:
       db:
         condition: service_healthy
@@ -54,11 +53,12 @@ services:
     environment:
       DB_HOST: db
       DB_NAME: quickcart
-      DB_USER: ${DB_USER:?DB_USER must be set in .env}
-      DB_PASSWORD: ${DB_PASSWORD:?DB_PASSWORD must be nonempty in .env}
+      DB_USER: ${DB_USER:-quickcart}
       PAYMENT_URL: http://payment-api:3003
       DELIVERY_DEMO: "true"
     depends_on:
+      catalog-api:
+        condition: service_healthy
       db:
         condition: service_healthy
       payment-api:
@@ -79,8 +79,8 @@ services:
     image: quickcart/db:${TAG:-latest}
     environment:
       POSTGRES_DB: quickcart
-      POSTGRES_USER: ${DB_USER:?DB_USER must be set in .env}
-      POSTGRES_PASSWORD: ${DB_PASSWORD:?DB_PASSWORD must be nonempty in .env}
+      POSTGRES_USER: ${DB_USER:-quickcart}
+      POSTGRES_HOST_AUTH_METHOD: trust
     volumes:
       - pg-data:/var/lib/postgresql/data             # named volume: data survives redeploys
     healthcheck:
@@ -97,5 +97,6 @@ volumes:
 networks:
   frontend-net:                            # proxy, frontend, and the APIs
   backend-net:                             # APIs that use the database, and the database only
+
 
 

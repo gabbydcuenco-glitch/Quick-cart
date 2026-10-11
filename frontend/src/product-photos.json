@@ -1,0 +1,194 @@
+{
+  "desktop-herb-garden": {
+    "tile": 4,
+    "sheet": 3
+  },
+  "rfid-leather-wallet": {
+    "tile": 9,
+    "sheet": 1
+  },
+  "plaid-throw-blanket": {
+    "tile": 8,
+    "sheet": 1
+  },
+  "aromatherapy-diffuser-set": {
+    "tile": 3,
+    "sheet": 2
+  },
+  "layered-necklace-hoops": {
+    "tile": 5,
+    "sheet": 2
+  },
+  "couples-matching-hoodies": {
+    "tile": 11,
+    "sheet": 3
+  },
+  "instant-film-camera-set": {
+    "tile": 2,
+    "sheet": 1
+  },
+  "couples-picnic-gift-set": {
+    "tile": 12,
+    "sheet": 3
+  },
+  "portable-power-bank": {
+    "tile": 14,
+    "sheet": 1
+  },
+  "ceramic-candle-warmer": {
+    "sheet": 4,
+    "tile": 3,
+    "columns": 2
+  },
+  "holiday-matching-shirts": {
+    "tile": 4,
+    "sheet": 1
+  },
+  "double-flask-set": {
+    "tile": 3,
+    "sheet": 1
+  },
+  "family-matching-pajamas": {
+    "tile": 1,
+    "sheet": 1
+  },
+  "party-board-card-games": {
+    "tile": 5,
+    "sheet": 3
+  },
+  "photo-memory-book": {
+    "tile": 6,
+    "sheet": 2
+  },
+  "erasable-smart-notebook": {
+    "tile": 2,
+    "sheet": 2
+  },
+  "couples-date-night-cards": {
+    "tile": 10,
+    "sheet": 3
+  },
+  "noise-canceling-earbuds": {
+    "tile": 15,
+    "sheet": 1
+  },
+  "weighted-blanket": {
+    "tile": 0,
+    "sheet": 3
+  },
+  "hanging-toiletry-bag": {
+    "tile": 6,
+    "sheet": 3
+  },
+  "cocktail-whiskey-smoker-kit": {
+    "tile": 0,
+    "sheet": 2
+  },
+  "microfiber-bathrobe": {
+    "tile": 3,
+    "sheet": 3
+  },
+  "pine-scented-candle-set": {
+    "tile": 6,
+    "sheet": 1
+  },
+  "stainless-water-bottle": {
+    "sheet": 4,
+    "tile": 2,
+    "columns": 2
+  },
+  "mulberry-silk-sleep-set": {
+    "tile": 4,
+    "sheet": 2
+  },
+  "sunset-projection-lamp": {
+    "tile": 15,
+    "sheet": 2
+  },
+  "gourmet-night-basket": {
+    "tile": 5,
+    "sheet": 1
+  },
+  "waterproof-bluetooth-speaker": {
+    "tile": 14,
+    "sheet": 2
+  },
+  "gold-ornament-set": {
+    "tile": 7,
+    "sheet": 1
+  },
+  "portable-photo-label-printer": {
+    "tile": 2,
+    "sheet": 3
+  },
+  "couples-memory-scrapbook": {
+    "tile": 9,
+    "sheet": 3
+  },
+  "desk-organizer-wireless-charger": {
+    "tile": 11,
+    "sheet": 1
+  },
+  "fragrance-discovery-set": {
+    "tile": 9,
+    "sheet": 2
+  },
+  "quilted-sling-belt-bag": {
+    "tile": 7,
+    "sheet": 2
+  },
+  "beard-grooming-kit": {
+    "tile": 13,
+    "sheet": 1
+  },
+  "hydrogel-mask-set": {
+    "tile": 8,
+    "sheet": 2
+  },
+  "bluetooth-item-finder": {
+    "tile": 13,
+    "sheet": 2
+  },
+  "rugged-travel-tumbler": {
+    "tile": 12,
+    "sheet": 1
+  },
+  "hair-blowout-kit": {
+    "tile": 12,
+    "sheet": 2
+  },
+  "matching-couple-pjs": {
+    "tile": 0,
+    "sheet": 1
+  },
+  "couples-ceramic-mugs": {
+    "tile": 8,
+    "sheet": 3
+  },
+  "couples-matching-bracelets": {
+    "tile": 7,
+    "sheet": 3
+  },
+  "fleece-lounge-set": {
+    "tile": 10,
+    "sheet": 2
+  },
+  "smart-fitness-ring": {
+    "tile": 10,
+    "sheet": 1
+  },
+  "running-shoes-sneakers": {
+    "tile": 1,
+    "sheet": 2
+  },
+  "calm-mist-diffuser": {
+    "sheet": 4,
+    "tile": 0,
+    "columns": 2
+  },
+  "handheld-mini-steamer": {
+    "sheet": 4,
+    "tile": 1,
+    "columns": 2
+  }
+}

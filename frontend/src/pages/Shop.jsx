@@ -6,7 +6,8 @@ import ProductCard from '../components/ProductCard'
 
 export default function Shop({ params, categories, addToCart }) {
   const q = params.get('q') || ''
-  const category = params.get('category') || ''
+  const requestedCategory = params.get('category') || ''
+  const category = requestedCategory === 'Couples & Unisex' ? 'Couples' : requestedCategory
   const deals = params.get('deals') === '1'
 
   const loader = useCallback(() => {
@@ -26,6 +27,7 @@ export default function Shop({ params, categories, addToCart }) {
     <section className="section">
       <Breadcrumbs items={crumbs} />
       <h1 className="page-title">{title}</h1>
+      {items && <p className="hint">{items.length} gifts to explore</p>}
 
       <ul className="chip-row" aria-label="Filter products">
         <li><a className={`chip${!category && !deals && !q ? ' chip-active' : ''}`} href="#/shop">All</a></li>

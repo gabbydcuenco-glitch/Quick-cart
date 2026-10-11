@@ -1,32 +1,34 @@
+> Updated startup instructions: read [START-HERE.md](START-HERE.md). Installation ports are automatic; older fixed-port examples below may differ.
+
+> v8: [Portable startup](START-HERE.md) and [current changes](docs/V8-VERIFICATION.md). Each laptop uses its own local Docker installation. Later starts reuse images and dependencies. Tests and health checks remain available.
+
 # QuickCart
 
 A multi-container e-commerce checkout system with React/Vite, PostgreSQL and Jenkins.
 
+Latest gift catalog and peso update: see docs/gifts-peso-update.md.
+The shop contains all 30 items from the supplied gift list and six new Couples sets.
+
 ## Run locally
 
-Open Docker Desktop and use Node.js 22.12+ or Node.js 24. From this folder:
+See [START-HERE.md](START-HERE.md) for current setup. With Docker Desktop running and Node.js 22.12 or newer installed:
 
-```powershell
-npm.cmd run install:frontend
-npm.cmd run dev
-```
+    npm install
+    npm run dev
 
-npm run dev first starts and verifies Docker services, then launches Vite at
-http://localhost:8080. The backend setup generates a database password
-only if missing, writes UTF-8 .env without BOM, builds containers and verifies backend
-health and products. Vite forwards /api to the Docker proxy at 127.0.0.1:8082.
-A startup error stops setup before launching Vite. Keep the same .env after first startup.
+Docker services start first, then Vite prints its Local URL (normally http://localhost:8080/). No saved database password is needed. Keep the Vite terminal and Docker engine running.
 
 ## PostgreSQL
 
-PostgreSQL 16 uses the new pg-data named volume. Its schema and nine sample products
-are initialized by db/init.sql. The catalog and order APIs use pg, parameterized queries,
+PostgreSQL 16 uses the new pg-data named volume. Its schema and nine legacy sample products
+are initialized by db/init.sql. Before accepting traffic, catalog-api migrates the catalog
+to PHP and adds 30 document gifts plus six Couples sets, for 45 products on a fresh database. The catalog and order APIs use pg, parameterized queries,
 RETURNING, identity IDs and transactions. Checkout decrements stock conditionally and
 rolls back database writes if any item is unavailable. Customer creation uses an upsert.
 
 The previous MySQL db-data volume is preserved. Its records are not automatically
 imported into PostgreSQL. Do not use MySQL image tags for rollback after this migration.
-DB_ROOT_PASSWORD is obsolete; .env needs DB_USER and DB_PASSWORD only.
+Database passwords are not used by this local Docker demo. The database has no published host port; only its private Docker network can reach it.
 
 ```powershell
 npm.cmd run db
@@ -43,22 +45,20 @@ npm.cmd run db
 | db | PostgreSQL 16 with named volume pg-data | 5432 |
 | proxy | Single public application gateway | 8080 |
 
-Production exposes only the proxy on 8080. The local host override exposes it only
-on 127.0.0.1:8082 so host Vite can use 8080. Database and APIs publish no host ports.
-Catalog/order APIs join frontend-net and backend-net; PostgreSQL joins backend-net.
+Only the proxy publishes a host port, chosen automatically from 8082. Vite uses 8080 (or the next free port). Database and APIs publish no host ports. Catalog/order APIs join frontend-net and backend-net; PostgreSQL joins backend-net.
 Each application has its own Dockerfile and health check; Compose waits for dependencies.
 
 ## Production and Jenkins
 
-Stop local Vite with Ctrl+C before production deployment:
+For the Docker-served application and Jenkins:
 
 ```powershell
-docker compose up -d --build --wait --wait-timeout 240
+npm start
 npm.cmd run jenkins
 docker exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword
 ```
 
-Application: http://localhost:8080. Jenkins: http://localhost:8081.
+Application: use the URL printed by npm start. Jenkins: http://localhost:8081.
 Jenkins uses a separate Compose project and persistent home. It has the host Docker
 socket for this classroom setup. Install suggested plugins, GitHub and Docker Pipeline.
 Create quickcart-env as a Secret file credential using the current PostgreSQL .env.
@@ -148,6 +148,11 @@ See docs/completion-status.md for the latest verified results and pending Docker
 
 ## Daily development startup
 
-Run `npm.cmd run dev` to start Vite directly in the current terminal at http://localhost:8080. Keep that terminal open. This command does not rebuild Docker, download images, install dependencies, or reuse a different Vite process. Start only one Vite terminal; Ctrl+C stops it.
+Run npm run dev. It starts the Docker services and then Vite in the terminal, normally at http://localhost:8080/. Missing frontend dependencies are installed automatically. Docker must stay running. No database password is saved or requested.
 
-Docker must already be running. First setup or after backend/Docker changes: run `npm.cmd run setup:dev`. To start existing stopped images without rebuilding, run `node scripts/prepare-dev.cjs`. Install frontend dependencies once with `npm.cmd run install:frontend`.
+
+
+## Original package and guidelines audit
+
+See [docs/GUIDELINES-AUDIT.md](docs/GUIDELINES-AUDIT.md). All dependency versions, lockfiles, application features, and Jenkins/rollback pipeline files are preserved. npm run dev automatically installs missing frontend dependencies before launching Vite. Jenkins starts separately with npm run jenkins.
+

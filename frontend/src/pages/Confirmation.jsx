@@ -32,14 +32,14 @@ export default function Confirmation({ orderNumber }) {
           <DeliveryTracking key={orderNumber} order={order} onUpdate={() => setRevision(r => r + 1)} />
           <ul className="summary-lines">
             {order.items.map((i) => (
-              <li key={i.productId}><span>{i.name} <small>× {i.quantity}</small></span><span>{money(i.unitPrice * i.quantity)}</span></li>
+              <li key={i.productId}><span>{i.name} <small>× {i.quantity}</small></span><span>{money(i.unitPrice * i.quantity, order.currency || 'USD')}</span></li>
             ))}
           </ul>
           <dl className="summary-rows">
-            <div><dt>Subtotal</dt><dd>{money(order.subtotal)}</dd></div>
-            {order.discount > 0 && <div className="summary-discount"><dt>Holiday offer</dt><dd>−{money(order.discount)}</dd></div>}
-            <div><dt>Shipping</dt><dd>{order.shipping === 0 ? 'FREE' : money(order.shipping)}</dd></div>
-            <div className="summary-total"><dt>Total paid</dt><dd>{money(order.total)}</dd></div>
+            <div><dt>Subtotal</dt><dd>{money(order.subtotal, order.currency || 'USD')}</dd></div>
+            {order.discount > 0 && <div className="summary-discount"><dt>Holiday offer</dt><dd>−{money(order.discount, order.currency || 'USD')}</dd></div>}
+            <div><dt>Shipping</dt><dd>{order.shipping === 0 ? 'FREE' : money(order.shipping, order.currency || 'USD')}</dd></div>
+            <div className="summary-total"><dt>Total paid</dt><dd>{money(order.total, order.currency || 'USD')}</dd></div>
           </dl>
           <p className="hint">Payment reference: {order.paymentReference}</p>
           <div className="button-row">

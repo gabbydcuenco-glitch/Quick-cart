@@ -1,5 +1,6 @@
+async function main() {
 // Run after publishing the QuickCart repository. Requires Node 20+.
-// Example: node scripts/Configure-Jenkins.mjs https://github.com/OWNER/REPO.git main
+// Example: node scripts/Configure-Jenkins.js https://github.com/OWNER/REPO.git main
 const [repository, branch='main', gitCredential=''] = process.argv.slice(2);
 if (!repository || !/^https:\/\/github\.com\/[\w.-]+\/[\w.-]+(?:\.git)?$/.test(repository)) {
   throw new Error('Provide your real HTTPS GitHub repository URL and branch. Do not put tokens in the URL.');
@@ -29,3 +30,7 @@ for(const [name,script] of [['quickcart','Jenkinsfile'],['quickcart-rollback','J
   console.log('Created '+name+' from '+script);
 }
 console.log('No builds started. Stop host Vite before production deployment on 8080. Run the first quickcart build once to register Jenkinsfile triggers; then prove a later push automatically builds.');
+
+}
+main().catch(error => { console.error(error.message); process.exitCode = 1; });
+

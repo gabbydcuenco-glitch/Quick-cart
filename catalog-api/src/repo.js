@@ -11,6 +11,8 @@ function toProduct(row) {
     name: row.name,
     description: row.description,
     category: row.category,
+    productType: row.product_type || null,
+    currency: row.currency || 'USD',
     price,
     listPrice,
     discountPercent: discountPercent(price, listPrice),

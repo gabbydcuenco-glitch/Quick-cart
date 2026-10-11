@@ -12,6 +12,7 @@ RUN npm run lint
 # Vite development server behind the same public reverse proxy.
 FROM base AS development
 COPY . .
+RUN chown node:node /app && mkdir -p /app/node_modules/.vite && chown node:node /app/node_modules/.vite
 ENV VITE_BUILD_NUMBER=dev
 USER node
 EXPOSE 8080

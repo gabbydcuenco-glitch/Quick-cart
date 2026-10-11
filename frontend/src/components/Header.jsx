@@ -78,7 +78,7 @@ export default function Header({ cartCount, categories, path }) {
                   <a href={`#/product/${item.id}`} onClick={() => setOpen(false)}>
                     <ProductImage slug={item.slug} />
                     <span className="suggestion-name"><Highlight text={item.name} query={query} /></span>
-                    <span className="suggestion-price">{money(item.price)}</span>
+                    <span className="suggestion-price">{money(item.price, item.currency || 'USD')}</span>
                   </a>
                 </li>
               ))}

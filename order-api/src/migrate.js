@@ -5,6 +5,9 @@ module.exports = async function migrate() {
   try {
     await client.query('BEGIN');
     await client.query('SELECT pg_advisory_xact_lock(817204)');
+    // Existing orders retain USD; all new orders explicitly use PHP.
+    await client.query("ALTER TABLE orders ADD COLUMN IF NOT EXISTS currency VARCHAR(3) NOT NULL DEFAULT 'USD'");
+    await client.query("ALTER TABLE orders ALTER COLUMN currency SET DEFAULT 'PHP'");
     await client.query(`ALTER TABLE orders
       ADD COLUMN IF NOT EXISTS estimated_start TIMESTAMPTZ,
       ADD COLUMN IF NOT EXISTS estimated_end TIMESTAMPTZ,

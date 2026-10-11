@@ -6,3 +6,6 @@ dist/
 .test-temp/
 
 .certs/
+
+.env.previous-*
+.quickcart-runtime.json

@@ -33,7 +33,7 @@ export default function Cart({ cart, products, setQuantity, removeItem, clearCar
                   {p ? <ProductImage slug={p.slug} /> : <div className="product-image tint-cream" />}
                   <div className="cart-line-info">
                     <a href={`#/product/${line.id}`}><strong>{p ? p.name : 'Item no longer available'}</strong></a>
-                    {p && <span>{money(p.price)} each</span>}
+                    {p && <span>{money(p.price, p.currency || 'USD')} each</span>}
                     <div className="qty-stepper">
                       <button type="button" aria-label="Decrease quantity" onClick={() => setQuantity(line.id, line.quantity - 1)}>−</button>
                       <span aria-live="polite">{line.quantity}</span>
@@ -46,7 +46,7 @@ export default function Cart({ cart, products, setQuantity, removeItem, clearCar
                       <button type="button" className="link-button" onClick={() => removeItem(line.id)}>Remove</button>
                     </div>
                   </div>
-                  {p && <strong className="cart-line-total">{money(p.price * line.quantity)}</strong>}
+                  {p && <strong className="cart-line-total">{money(p.price * line.quantity, p.currency || 'USD')}</strong>}
                 </li>
               )
             })}
@@ -57,17 +57,17 @@ export default function Cart({ cart, products, setQuantity, removeItem, clearCar
             {error && <p className="notice notice-error">{error}</p>}
             {summary && !error && (
               <dl className="summary-rows">
-                <div><dt>Subtotal</dt><dd>{money(summary.subtotal)}</dd></div>
+                <div><dt>Subtotal</dt><dd>{money(summary.subtotal, summary.currency || 'USD')}</dd></div>
                 {summary.discount > 0 && (
-                  <div className="summary-discount"><dt>Holiday offer</dt><dd>−{money(summary.discount)}</dd></div>
+                  <div className="summary-discount"><dt>Holiday offer</dt><dd>−{money(summary.discount, summary.currency || 'USD')}</dd></div>
                 )}
                 <div><dt>Shipping</dt><dd>FREE</dd></div>
-                <div className="summary-total"><dt>Total</dt><dd>{money(summary.total)}</dd></div>
+                <div className="summary-total"><dt>Total</dt><dd>{money(summary.total, summary.currency || 'USD')}</dd></div>
               </dl>
             )}
             {summary && !error && summary.discount === 0 && (
               <p className="hint">
-                Add {money(summary.rates.discountThreshold - summary.subtotal)} more to get {money(summary.rates.discountAmount)} off.
+                Add {money(summary.rates.discountThreshold - summary.subtotal, summary.currency || 'USD')} more to get {money(summary.rates.discountAmount, summary.currency || 'USD')} off.
               </p>
             )}
             <a className={`btn btn-gold btn-block${error ? ' btn-disabled' : ''}`} href={error ? undefined : '#/checkout'} aria-disabled={Boolean(error)}>

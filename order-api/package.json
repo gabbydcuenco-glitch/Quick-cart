@@ -5,8 +5,9 @@
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
-    "test": "jest && node tests/db-integration.cjs",
-    "test:db": "node tests/db-integration.cjs"
+    "test": "jest && node tests/db-integration.js",
+    "test:gifts": "node tests/catalog-gifts-integration.js",
+    "test:db": "node tests/db-integration.js"
   },
   "dependencies": {
     "express": "^5.2.1",

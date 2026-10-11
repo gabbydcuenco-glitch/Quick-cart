@@ -41,10 +41,13 @@ export default function ProductPage({ id, addToCart }) {
         <div className="product-detail-info">
           <p className="product-category">{product.category}</p>
           <h1 className="page-title">{product.name}</h1>
-          <p className="rating"><span className="stars">{stars(product.rating)}</span> {product.rating} ({product.reviews} reviews)</p>
+          {product.productType && <p className="hint">{product.productType}</p>}
+          {product.reviews > 0
+            ? <p className="rating"><span className="stars">{stars(product.rating)}</span> {product.rating} ({product.reviews} reviews)</p>
+            : <p className="rating">New arrival · No reviews yet</p>}
           <p className="price price-large">
-            <strong>{money(product.price)}</strong>
-            {product.listPrice && product.listPrice > product.price && <s>{money(product.listPrice)}</s>}
+            <strong>{money(product.price, product.currency || 'USD')}</strong>
+            {product.listPrice && product.listPrice > product.price && <s>{money(product.listPrice, product.currency || 'USD')}</s>}
           </p>
           <p>{product.description}</p>
           <p className={soldOut ? 'low-stock' : 'in-stock'}>

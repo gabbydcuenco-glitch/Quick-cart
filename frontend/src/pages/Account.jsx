@@ -30,7 +30,7 @@ function Orders({ email }) {
               {order.items.map((i) => <li key={i.productId}>{i.name} × {i.quantity}</li>)}
             </ul>
             <a className="btn btn-crimson" href={`#/order/${order.orderNumber}`}>Track delivery</a>
-            <p className="order-total">Total {money(order.total)}</p>
+            <p className="order-total">Total {money(order.total, order.currency || 'USD')}</p>
           </article>
         ))}
       </div>

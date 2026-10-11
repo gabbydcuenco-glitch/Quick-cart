@@ -1,31 +1,31 @@
 const { calculateTotals, mergeItems, formatOrderNumber, dollars, toCents } = require('../src/logic');
 
 describe('calculateTotals', () => {
-  test('$122 subtotal gets the $10 holiday discount: total $112 (same as the design mockup)', () => {
+  test('PHP 4000 subtotal gets PHP 300 discount', () => {
     const lines = [
-      { unitPriceCents: 7800, quantity: 1 },
-      { unitPriceCents: 2900, quantity: 1 },
-      { unitPriceCents: 1500, quantity: 1 },
+      { unitPriceCents: 250000, quantity: 1 },
+      { unitPriceCents: 100000, quantity: 1 },
+      { unitPriceCents: 50000, quantity: 1 },
     ];
     expect(calculateTotals(lines, 'standard')).toEqual({
-      subtotalCents: 12200, discountCents: 1000, shippingCents: 0, totalCents: 11200,
+      subtotalCents: 400000, discountCents: 30000, shippingCents: 0, totalCents: 370000,
     });
   });
-  test('no discount below $100', () => {
-    const t = calculateTotals([{ unitPriceCents: 9999, quantity: 1 }], 'standard');
+  test('no discount below PHP 3000', () => {
+    const t = calculateTotals([{ unitPriceCents: 299999, quantity: 1 }], 'standard');
     expect(t.discountCents).toBe(0);
-    expect(t.totalCents).toBe(9999);
+    expect(t.totalCents).toBe(299999);
   });
-  test('exactly $100 already gets the discount', () => {
-    expect(calculateTotals([{ unitPriceCents: 10000, quantity: 1 }], 'standard').discountCents).toBe(1000);
+  test('exactly PHP 3000 gets the discount', () => {
+    expect(calculateTotals([{ unitPriceCents: 300000, quantity: 1 }], 'standard').discountCents).toBe(30000);
   });
-  test('express delivery adds $14.99', () => {
-    const t = calculateTotals([{ unitPriceCents: 2900, quantity: 1 }], 'express');
-    expect(t.shippingCents).toBe(1499);
-    expect(t.totalCents).toBe(4399);
+  test('express delivery adds PHP 149', () => {
+    const t = calculateTotals([{ unitPriceCents: 100000, quantity: 1 }], 'express');
+    expect(t.shippingCents).toBe(14900);
+    expect(t.totalCents).toBe(114900);
   });
   test('quantity multiplies the price', () => {
-    expect(calculateTotals([{ unitPriceCents: 1500, quantity: 3 }], 'standard').subtotalCents).toBe(4500);
+    expect(calculateTotals([{ unitPriceCents: 50000, quantity: 3 }], 'standard').subtotalCents).toBe(150000);
   });
   test('unknown delivery method throws', () => {
     expect(() => calculateTotals([], 'drone')).toThrow('Unknown delivery method');

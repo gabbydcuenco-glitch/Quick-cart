@@ -1,9 +1,9 @@
 // Checkout rules (pure functions, unit-tested with Jest).
 // All money is handled in CENTS (whole numbers) so there are no rounding mistakes.
 
-const HOLIDAY_DISCOUNT_THRESHOLD_CENTS = 10000; // spend $100 ...
-const HOLIDAY_DISCOUNT_CENTS = 1000;            // ... and get $10 off
-const EXPRESS_SHIPPING_CENTS = 1499;            // Express Holiday Courier $14.99 (Standard is free)
+const HOLIDAY_DISCOUNT_THRESHOLD_CENTS = 300000; // spend PHP 3,000 ...
+const HOLIDAY_DISCOUNT_CENTS = 30000;             // ... and get PHP 300 off
+const EXPRESS_SHIPPING_CENTS = 14900;            // Express PHP 149 (Standard is free)
 const DELIVERY_METHODS = ['standard', 'express'];
 
 // lines: [{ unitPriceCents, quantity }]

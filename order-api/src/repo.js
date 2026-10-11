@@ -10,10 +10,10 @@ async function ping() {
 // Current prices and stock for the cart (prices always come from the database, never from the browser)
 async function getProductsByIds(ids) {
   const { rows } = await pool.query(
-    'SELECT product_id, name, price, stock FROM products WHERE product_id = ANY($1::int[])',
+    'SELECT product_id, name, price, stock, currency FROM products WHERE product_id = ANY($1::int[])',
     [ids]
   );
-  return rows.map((r) => ({ id: r.product_id, name: r.name, priceCents: toCents(r.price), stock: r.stock }));
+  return rows.map((r) => ({ id: r.product_id, name: r.name, priceCents: toCents(r.price), stock: r.stock, currency: r.currency }));
 }
 
 // Everything happens in ONE transaction: if any step fails, nothing is saved.
@@ -49,9 +49,9 @@ async function createOrder({ customer, saveAddress, delivery, lines, totals, pay
 
     // 3. The order itself (the shipping address is copied into the order)
     const { rows: order } = await conn.query(
-      `INSERT INTO orders (customer_id, delivery_method, subtotal, discount, shipping, total, payment_method, payment_reference,
+      `INSERT INTO orders (customer_id, currency, delivery_method, subtotal, discount, shipping, total, payment_method, payment_reference,
                            ship_name, ship_street, ship_city, ship_state, ship_zip, ship_phone)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING order_id`,
+       VALUES ($1, 'PHP', $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING order_id`,
       [customerId, delivery, dollars(totals.subtotalCents), dollars(totals.discountCents), dollars(totals.shippingCents),
        dollars(totals.totalCents), payment.method, payment.reference,
        customer.fullName.trim(), customer.street.trim(), customer.city.trim(), customer.state.trim(),
@@ -87,6 +87,7 @@ async function createOrder({ customer, saveAddress, delivery, lines, totals, pay
 function toOrder(row, items, events) {
   return {
     orderNumber: row.order_number,
+    currency: row.currency || 'USD',
     status: row.status,
     createdAt: row.created_at,
     deliveryMethod: row.delivery_method,

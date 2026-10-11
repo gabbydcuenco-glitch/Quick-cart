@@ -3,7 +3,7 @@ services:
   frontend:
     build:
       target: development
-    image: quickcart/frontend:vite-dev
+    image: quickcart/frontend:${TAG:-latest}-vite-dev
     volumes:
       - ./frontend/src:/app/src:ro
       - ./frontend/index.html:/app/index.html:ro

@@ -9,8 +9,8 @@ export default function Home({ products, error, addToCart }) {
     <>
       <section className="hero">
         <p className="hero-kicker">Festive Season Sale</p>
-        <h1>Gifts that make the holidays glow</h1>
-        <p>Matching pajamas, cozy decor, and sweet treats, with free holiday shipping and a simple, secure checkout.</p>
+        <h1 className="hero-logo-heading"><img className="hero-logo" src="/images/together-and-gifts.png" alt="Together & Gifts" width="2048" height="360" /></h1>
+        <p>Thoughtful gifts for Men, Women, Unisex, and Couples — from everyday essentials to memories made together.</p>
         <a className="btn btn-gold" href="#/shop?deals=1">Shop Holiday Deals</a>
       </section>
 
