@@ -13,6 +13,3 @@ Anyone who can reach this Jenkins has administrator access. Keep it on localhost
 and use Poll SCM; do not expose this no-login demo through ngrok or a public tunnel.
 If the initial plugin setup was skipped, use Manage Jenkins > Plugins to install
 Pipeline, Git, GitHub, Credentials Binding and Docker Pipeline before creating jobs.
-
-This local setup differs from the password-protected setup described in the earlier
-report. Update the final presentation/report to describe the actual configuration.

@@ -1,5 +1,0 @@
-# Additional imagery
-
-Built-in image generation; illustrative catalog visuals, not supplier photographs. Saved in frontend/public/products/catalog-04.png. Original image preserved.
-
-Create a square product photography sprite sheet in precisely TWO columns and TWO rows, four equal square tiles, no gutters no borders no text no logos. Each tile independent photorealistic commercial studio photograph on very pale lavender background with soft shadows, centered product with generous margins, none crossing tile boundaries. Upper left: compact teal ultrasonic aroma mist diffuser, rounded ceramic body, visible delicate mist, small water lid and power button, no speaker grille. Upper right: cream handheld garment steamer with handle and steam nozzle, portable upright appliance with subtle steam. Lower left: blush pink insulated tumbler with large handle and white straw. Lower right: cozy cream folded lounge top and trousers paired with an ivory candle warmer lamp and glass candle, complete gift set arranged together. Pastel ecommerce catalog, realistic materials, clean uncluttered photography, no people, no emojis.

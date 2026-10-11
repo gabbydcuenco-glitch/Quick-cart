@@ -67,5 +67,5 @@ npm start prints a separate Docker-served URL and returns while containers keep
 running. npm run dev prints the Vite URL and stays active until Ctrl+C. Use the
 URL printed by the command you are running.
 
-See docs/V7-VERIFICATION.md for verification details; earlier backend test results
-are recorded in docs/V6-VERIFICATION.md.
+
+See docs/PDF-IMPLEMENTATION.md for the specification mapping.
