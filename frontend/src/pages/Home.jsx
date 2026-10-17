@@ -21,7 +21,7 @@ export default function Home({ products, error, addToCart }) {
       </section>
 
       <section className="section">
-        <h2 className="section-title">Featured Holiday Picks - QuickCart Live Demo</h2>
+        <h2 className="section-title">Welcome to QuickCart (demo)</h2>
         {error && <p className="notice notice-error">We could not load the products right now. Please try again later.</p>}
         {!products && !error && <p className="notice">Loading products...</p>}
         <div className="product-grid">
