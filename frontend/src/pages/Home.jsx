@@ -8,7 +8,7 @@ export default function Home({ products, error, addToCart }) {
   return (
     <>
       <section className="hero">
-        <p className="hero-kicker">Festive Season Sale</p>
+        <p className="hero-kicker">Festive Season Sale — Jenkins Demo</p>
         <h1 className="hero-logo-heading"><img className="hero-logo" src="/images/together-and-gifts.png" alt="Together & Gifts" width="2048" height="360" /></h1>
         <p>Thoughtful gifts for Men, Women, Unisex, and Couples — from everyday essentials to memories made together.</p>
         <a className="btn btn-gold" href="#/shop?deals=1">Shop Holiday Deals</a>
